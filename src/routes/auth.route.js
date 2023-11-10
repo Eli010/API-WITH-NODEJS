@@ -1,7 +1,8 @@
 import {Router} from "express";
 import { body } from "express-validator";
-import { loginController, registerController } from '../controllers/auth.controller.js'
+import { infoUser, loginController, registerController } from '../controllers/auth.controller.js'
 import { validatorResult } from "../middlewares/validatorResult.js";
+import { requireUserToken } from "../middlewares/requireUserToken.js";
 const router = Router();
 
 router.post('/register',
@@ -19,4 +20,5 @@ router.post('/login',
 validatorResult,
  loginController);
 
+ router.get('/protected', requireUserToken, infoUser);
 export default router;
