@@ -14,18 +14,39 @@ export const registerController = async (req, res) => {
 
          user =  User({ email, password });
         await user.save();
+
         //JWT TOKEN
-        return res.json({ ok: 'Register' });
+
+        return res.status(201).json({ ok: 'Register' });
     } catch (error) {
         console.log(error);
         //Alternativa TWO: error pode defecto mongoose
         if (error.code === 11000) {
             return res.status(401).json({error:"Ya existe el usuario"});
         }
+        return res.status(500).json({error:"Error de servidor"});
     }
 
 }
 
-export const loginController = (req, res) => {
-    res.json({ ok: 'login' });
+export const loginController =async (req, res) => {
+    try {
+     const { email, password } = req.body;
+
+     let user =  await User.findOne({ email });
+     if (!user) return res.status(403).json({error:"No existe este usuario"});
+
+     const verificarPassword = await user.comparePassword(password);
+     if (!verificarPassword) 
+     return res.status(403).json({error:"contraseña incorrecta"});
+    
+     //generamos un token
+     
+
+       return res.json({ ok: 'login' });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error:"Error de servidor"});
+    }
 }
