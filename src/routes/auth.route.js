@@ -1,8 +1,8 @@
-import express from "express";
+import {Router} from "express";
 import { body } from "express-validator";
 import { loginController, registerController } from '../controllers/auth.controller.js'
 import { validatorResult } from "../middlewares/validatorResult.js";
-const router = express.Router();
+const router = Router();
 
 router.post('/register',
     [

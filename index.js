@@ -10,7 +10,7 @@ const app = express();
 //agregamos en uso de json
 app.use(express.json());
 //rutas
-app.use('/api/v1',authRouter);
+app.use('/api/v1/auth',authRouter);
 
 const PORT = process.env.PORT||5000;
 
