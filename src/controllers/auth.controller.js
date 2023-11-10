@@ -1,4 +1,5 @@
-import { User } from '../models/user.js'
+import { User } from '../models/user.js';
+import jwt  from 'jsonwebtoken';
 
 export const registerController = async (req, res) => {
     console.log(req.body);
@@ -41,9 +42,10 @@ export const loginController =async (req, res) => {
      return res.status(403).json({error:"contraseña incorrecta"});
     
      //generamos un token
-     
+        const token =  jwt.sign({uid:user._id},process.env.JWT_SECRET);
 
-       return res.json({ ok: 'login' });
+
+       return res.json({ token });
 
     } catch (error) {
         console.log(error);
